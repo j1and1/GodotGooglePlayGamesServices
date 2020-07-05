@@ -1,0 +1,2 @@
+include ':GodotGooglePlayGamesServicesLib'
+rootProject.name = "GodotGooglePlayGamesServices"
