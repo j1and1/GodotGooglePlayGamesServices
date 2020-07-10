@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jandans.godotgoogleplaygamesserviceslib">
-
-    <meta-data
-        android:name="org.godotengine.plugin.v1.GooglePlayGamesServices"
-        android:value="[plugin.init.ClassFullName]" />
+    <application>
+        <meta-data
+            android:name="org.godotengine.plugin.v1.GooglePlayGamesServices"
+            android:value="com.jandans.godotgoogleplaygamesserviceslib.GooglePlayGamesServices"  />
+    </application>
 </manifest>

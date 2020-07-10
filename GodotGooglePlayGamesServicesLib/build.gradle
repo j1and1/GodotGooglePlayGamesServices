@@ -10,7 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -24,12 +23,19 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation fileTree(dir: "libs", include: ["*.aar"])
+    compileOnly fileTree(dir: "libs", include: ["*.aar"])
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
-    compileOnly 'com.google.android.gms:play-services-games:19.0.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.google.android.gms:play-services-games:19.0.0'
 
 }
+
+task copyResourceToOutput {
+    doLast {
+        copy {
+            from "$projectDir/../GodotGooglePlayGamesServicesLib.gdap"
+            into "$buildDir/outputs/aar/"
+        }
+    }
+}
+
+build.finalizedBy(copyResourceToOutput)

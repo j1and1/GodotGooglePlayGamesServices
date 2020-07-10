@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Interaction.gd" type="Script" id=1]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Login" type="Button" parent="."]
+margin_left = 40.0
+margin_top = 31.0
+margin_right = 311.0
+margin_bottom = 113.0
+rect_pivot_offset = Vector2( 23, 10 )
+text = "Login"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Login2" type="Button" parent="."]
+margin_left = 332.0
+margin_top = 199.0
+margin_right = 603.0
+margin_bottom = 281.0
+rect_pivot_offset = Vector2( 23, 10 )
+text = "Login"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Unlock" type="Button" parent="."]
+margin_left = 36.1591
+margin_top = 284.75
+margin_right = 313.159
+margin_bottom = 354.75
+rect_pivot_offset = Vector2( 23, 10 )
+text = "UnlockAchevement"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Scores" type="Button" parent="."]
+margin_left = 331.0
+margin_top = 29.0
+margin_right = 615.0
+margin_bottom = 111.0
+rect_pivot_offset = Vector2( 23, 10 )
+text = "Show Scores"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Achievements" type="Button" parent="."]
+margin_left = 331.0
+margin_top = 122.0
+margin_right = 615.0
+margin_bottom = 187.0
+rect_pivot_offset = Vector2( 23, 10 )
+text = "Show achievements"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReportScore" type="Button" parent="."]
+margin_left = 38.0
+margin_top = 202.0
+margin_right = 314.0
+margin_bottom = 277.0
+rect_pivot_offset = Vector2( 23, 10 )
+text = "Report Score"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignOut" type="Button" parent="."]
+margin_left = 38.0
+margin_top = 121.0
+margin_right = 311.0
+margin_bottom = 193.0
+rect_pivot_offset = Vector2( 23, 10 )
+text = "Signout"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Login" to="." method="_on_Login_pressed"]
+[connection signal="pressed" from="Login2" to="." method="_on_Login2_pressed"]
+[connection signal="pressed" from="Unlock" to="." method="_on_Unlock_pressed"]
+[connection signal="pressed" from="Scores" to="." method="_on_Scores_pressed"]
+[connection signal="pressed" from="Achievements" to="." method="_on_Achievements_pressed"]
+[connection signal="pressed" from="ReportScore" to="." method="_on_ReportScore_pressed"]
+[connection signal="pressed" from="SignOut" to="." method="_on_SignOut_pressed"]
