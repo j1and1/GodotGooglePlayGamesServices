@@ -7,7 +7,7 @@ This is still work in progress and might not work as expected. You'll have to co
 - Download or clone this repository
 - Download corresponding version of `godot-lib.aar` packadge from [here](https://godotengine.org/download/) and place it again in `GodotGooglePlayGamesServicesLib\libs` folder
 - Open this project in atleast Android Studio 4 and run `gradlew build` from terminal to build the debug and release aar libs
-- Build output can be copied to Godot projects `android\plugins` alongside dependencies and plugin description file from `Godot\UnityAdsGodot.gdap`
+- Build output (`GodotGooglePlayGamesServicesLib/build/outputs/aar`) can be copied to Godot projects `android\plugins`
 
 ## Usage
 
@@ -22,7 +22,7 @@ First go over how to setup Google play games as mentioned [here](https://develop
 <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
     ```
 - Open up the Godots projects `android` folder and create a folder called `plugins` if it isn't there. 
-- Place the `GodotGooglePlayGamesServicesLib.aar` inside the freshly created plugins folder along with `GodotGooglePlayGamesServicesLib.gdap`. 
+- Place the `GodotGooglePlayGamesServicesLib-release.aar` inside the freshly created plugins folder along with `GodotGooglePlayGamesServicesLib.gdap`. 
 - The min SDK version will need a update so open up the `android\build\config.gradle` and update `minSdkVersion` to 21
 - Last thing is to enable this plugin under `Project -> Export -> Android -> Plugins` and check the checkbox besides `Godot Google Play Games Services`
 
