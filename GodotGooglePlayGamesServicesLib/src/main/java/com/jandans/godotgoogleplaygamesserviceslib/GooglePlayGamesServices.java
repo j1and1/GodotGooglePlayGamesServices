@@ -65,7 +65,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
     public List<String> getPluginMethods() {
         return new ArrayList<String>() {
             {
-                add("initialise")
+                add("initialise");
                 add("isSignedIn");
                 add("signInSilently");
                 add("startSignInIntent");
@@ -152,7 +152,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
 
     public void showAchievements() {
         if (mAchievementsClient == null) {
-            Log.e(TAG, "User might not be signed in.")
+            Log.e(TAG, "User might not be signed in.");
             return;
         }
         mAchievementsClient.getAchievementsIntent()
@@ -172,7 +172,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
 
     public void showLeaderboards() {
         if (mLeaderboardsClient == null) {
-            Log.e(TAG, "User might not be signed in.")
+            Log.e(TAG, "User might not be signed in.");
             return;
         }
         mLeaderboardsClient.getAllLeaderboardsIntent()
@@ -192,7 +192,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
 
     public void reportScore(String leaderboardID, int score) {
         if (mLeaderboardsClient == null) {
-            Log.e(TAG, "User might not be signed in.")
+            Log.e(TAG, "User might not be signed in.");
             return;
         }
         mLeaderboardsClient.submitScore(leaderboardID, score);
@@ -200,7 +200,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
 
     public void unlockAchievement(String achievementID) {
         if (mAchievementsClient == null) {
-            Log.e(TAG, "User might not be signed in.")
+            Log.e(TAG, "User might not be signed in.");
             return;
         }
         mAchievementsClient.unlock(achievementID);
@@ -208,7 +208,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
 
     public void incrementAchievement(String achievementID, int steps) {
         if (mAchievementsClient == null) {
-            Log.e(TAG, "User might not be signed in.")
+            Log.e(TAG, "User might not be signed in.");
             return;
         }
         mAchievementsClient.increment(achievementID, steps);
