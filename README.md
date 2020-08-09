@@ -16,13 +16,15 @@ First go over how to setup Google play games as mentioned [here](https://develop
 - In Godot open up the Android export template settings by going to `Project -> Export`. 
   - Select `Android` and enable costom build. 
   - Instal custom android build template. 
-  - Add the following 2 lines to your app manifest
-  ```
+  - Add the following 2 lines to your app manifest between `<application>` tags
+
+```xml
 <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="<YOUR_APPLICATION_ID_GOES_HERE>" />
 <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-    ```
-- Open up the Godots projects `android` folder and create a folder called `plugins` if it isn't there. 
-- Place the `GodotGooglePlayGamesServicesLib-release.aar` inside the freshly created plugins folder along with `GodotGooglePlayGamesServicesLib.gdap`. 
+```
+
+- Open up the Godots projects `android` folder and create a folder called `plugins` if it isn't there.
+- Place the `GodotGooglePlayGamesServicesLib.aar` inside the freshly created plugins folder along with `GodotGooglePlayGamesServicesLib.gdap`
 - The min SDK version will need a update so open up the `android\build\config.gradle` and update `minSdkVersion` to 21
 - Last thing is to enable this plugin under `Project -> Export -> Android -> Plugins` and check the checkbox besides `Godot Google Play Games Services`
 
