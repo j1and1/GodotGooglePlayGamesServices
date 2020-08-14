@@ -76,7 +76,7 @@ func _on_SignOut_pressed():
 
 - There might be some steps missing in setup guide
 - Events are not implemented
-- Currently we cannot get any info about user in Godot side.... also not implemented. possibly might pass that as JSON string in future
+- Might need more fields in Account info
 
 ## Contributing
 
