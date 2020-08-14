@@ -19,6 +19,7 @@ import com.google.android.gms.drive.Drive;
 import com.google.android.gms.games.AchievementsClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.LeaderboardsClient;
+import com.google.android.gms.games.SnapshotsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,11 +44,15 @@ public class GooglePlayGamesServices extends GodotPlugin {
     private LeaderboardsClient mLeaderboardsClient;
     //private EventsClient mEventsClient;
     //private PlayersClient mPlayersClient;
+    private SnapshotsClient mSnapshotClient;
     private GoogleSignInAccount mLoggedInAccount;
+
+    private boolean mUseSaves = false;
 
     // request codes we use when invoking an external activity
     private static final int RC_UNUSED = 5001;
     private static final int RC_SIGN_IN = 9001;
+    private static final int RC_SAVED_GAMES = 9009;
 
     //Godot signal related variables
     private SignalInfo mOnConnectedSignal = new SignalInfo("onConnected");
@@ -96,7 +101,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
     }
     // END: Export name, methods and signals to godot
 
-    public void initialise(boolean requestProfile, boolean requestEmail) {
+    public void initialise(boolean requestProfile, boolean requestEmail, boolean useSaves) {
         GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
 
         if(requestProfile) {
@@ -105,6 +110,10 @@ public class GooglePlayGamesServices extends GodotPlugin {
         if (requestEmail) {
             builder.requestEmail();
         }
+        if (useSaves) {
+            builder.requestScopes(Drive.SCOPE_APPFOLDER);
+        }
+        mUseSaves = useSaves;
         GoogleSignInOptions options = builder.build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), options);
     }
@@ -269,6 +278,8 @@ public class GooglePlayGamesServices extends GodotPlugin {
                 onDisconnected();
                 handleException(apiException, message);
             }
+        } else if (requestCode == RC_SAVED_GAMES) {
+
         }
     }
 
@@ -281,8 +292,12 @@ public class GooglePlayGamesServices extends GodotPlugin {
         mLeaderboardsClient = Games.getLeaderboardsClient(getActivity(), resultingAccount);
         //mEventsClient = Games.getEventsClient(getActivity(), resultingAccount);
         //mPlayersClient = Games.getPlayersClient(getActivity(), resultingAccount);
+        if (mUseSaves) {
+            mSnapshotClient = Games.getSnapshotsClient(getActivity(), resultingAccount);
+        }
 
         emitSignal(mOnConnectedSignal.getName());
+        Games.getGamesClient(getActivity(), resultingAccount).setViewForPopups(getActivity().findViewById(android.R.id.content));
     }
 
     private void onDisconnected()
@@ -293,6 +308,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
         mLeaderboardsClient = null;
         //mPlayersClient = null;
         //mEventsClient = null;
+        mSnapshotClient = null;
         mLoggedInAccount = null;
 
         emitSignal(mOnDisonnectedSignal.getName());
