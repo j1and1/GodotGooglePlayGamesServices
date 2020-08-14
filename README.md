@@ -27,6 +27,7 @@ First go over how to setup Google play games as mentioned [here](https://develop
 - Open up the Godots projects `android` folder and create a folder called `plugins` if it isn't there.
 - Place the `GodotGooglePlayGamesServicesLib.aar` inside the freshly created plugins folder along with `GodotGooglePlayGamesServicesLib.gdap`
 - The min SDK version will need a update so open up the `android\build\config.gradle` and update `minSdkVersion` to 21
+- Package name should be changed in `Project -> Export -> Android -> Plugins -> Package -> Unique Name` to the one you registered in Google Play Games
 - Last thing is to enable this plugin under `Project -> Export -> Android -> Plugins` and check the checkbox besides `Godot Google Play Games Services`
 
 Also there's an example godot project that shows you how to use this
@@ -40,25 +41,23 @@ func _ready():
 		gps = Engine.get_singleton("GooglePlayGamesServices")
 		gps.connect("onConnected", self, "_on_Connected") # register callback for UnityAdsReady
 		gps.connect("onDisconnected", self, "_on_Disconnected") # Register callback when video add is finished
-		gps.initialise("<OAuth2ClientID>")
-
+		gps.initialise(true, false) # requestProfile data - True, requestEmail - False
 
 func _on_Connected():
-  if gps.isSignedIn(): # we can ask the PlayServiceWrapper if the user is signed in
-		print("SignedIn")  
-	print("_on_Connected")
+	$SignedOut.hide()
+	$SignedIn.show()
+	
+	print(gps.getAccountInfo()) #returns account info in JSON or empty string if theres an error. If you didnt request email or profile data no info will be provided
 
 func _on_Disconnected():
-	print("_on_Disconnected was called")
+	$SignedOut.show()
+	$SignedIn.hide()
 
 func _on_Login_pressed():
-	gps.startSignInIntent() # Also can call signInSilently when app is resumed
-
-func _on_Login2_pressed():
-	gps.signInSilently() # this should be called on app resume
+	gps.signInSilently() # logs in silently if it cant then runs signin intent
 
 func _on_Unlock_pressed():
-	gps.unlockAchievement("<Achievement ID>") #also incrementAchievement("<Achievement ID>") can be called to increment Achievement progress
+	gps.unlockAchievement("<Acheavement ID>") #also incrementAchievement("<Acheavement ID>") can be called to increment acheavement progress
 
 func _on_Scores_pressed():
 	gps.showLeaderboards() # Should show leaderboards
@@ -71,7 +70,6 @@ func _on_ReportScore_pressed():
 
 func _on_SignOut_pressed():
 	gps.signOut() # Signs out if we are signed in
-
 ```
 
 ## TODOs

@@ -5,29 +5,23 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Login" type="Button" parent="."]
-margin_left = 40.0
-margin_top = 31.0
-margin_right = 311.0
-margin_bottom = 113.0
+[node name="SignedOut" type="Node2D" parent="."]
+
+[node name="Login" type="Button" parent="SignedOut"]
+margin_left = 52.3993
+margin_top = 175.334
+margin_right = 585.399
+margin_bottom = 286.334
 rect_pivot_offset = Vector2( 23, 10 )
 text = "Login"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Login2" type="Button" parent="."]
-margin_left = 332.0
-margin_top = 199.0
-margin_right = 603.0
-margin_bottom = 281.0
-rect_pivot_offset = Vector2( 23, 10 )
-text = "Login"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="SignedIn" type="Node2D" parent="."]
+visible = false
 
-[node name="Unlock" type="Button" parent="."]
+[node name="Unlock" type="Button" parent="SignedIn"]
 margin_left = 36.1591
 margin_top = 284.75
 margin_right = 313.159
@@ -38,7 +32,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Scores" type="Button" parent="."]
+[node name="Scores" type="Button" parent="SignedIn"]
 margin_left = 331.0
 margin_top = 29.0
 margin_right = 615.0
@@ -49,7 +43,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Achievements" type="Button" parent="."]
+[node name="Achievements" type="Button" parent="SignedIn"]
 margin_left = 331.0
 margin_top = 122.0
 margin_right = 615.0
@@ -60,7 +54,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ReportScore" type="Button" parent="."]
+[node name="ReportScore" type="Button" parent="SignedIn"]
 margin_left = 38.0
 margin_top = 202.0
 margin_right = 314.0
@@ -71,7 +65,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SignOut" type="Button" parent="."]
+[node name="SignOut" type="Button" parent="SignedIn"]
 margin_left = 38.0
 margin_top = 121.0
 margin_right = 311.0
@@ -81,10 +75,9 @@ text = "Signout"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="Login" to="." method="_on_Login_pressed"]
-[connection signal="pressed" from="Login2" to="." method="_on_Login2_pressed"]
-[connection signal="pressed" from="Unlock" to="." method="_on_Unlock_pressed"]
-[connection signal="pressed" from="Scores" to="." method="_on_Scores_pressed"]
-[connection signal="pressed" from="Achievements" to="." method="_on_Achievements_pressed"]
-[connection signal="pressed" from="ReportScore" to="." method="_on_ReportScore_pressed"]
-[connection signal="pressed" from="SignOut" to="." method="_on_SignOut_pressed"]
+[connection signal="pressed" from="SignedOut/Login" to="." method="_on_Login_pressed"]
+[connection signal="pressed" from="SignedIn/Unlock" to="." method="_on_Unlock_pressed"]
+[connection signal="pressed" from="SignedIn/Scores" to="." method="_on_Scores_pressed"]
+[connection signal="pressed" from="SignedIn/Achievements" to="." method="_on_Achievements_pressed"]
+[connection signal="pressed" from="SignedIn/ReportScore" to="." method="_on_ReportScore_pressed"]
+[connection signal="pressed" from="SignedIn/SignOut" to="." method="_on_SignOut_pressed"]
