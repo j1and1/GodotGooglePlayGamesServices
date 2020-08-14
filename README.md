@@ -5,7 +5,7 @@ This is still work in progress and might not work as expected. You'll have to co
 ## Compilation from source
 
 - Download or clone this repository
-- Download corresponding version of `godot-lib.aar` packadge from [here](https://godotengine.org/download/) and place it again in `GodotGooglePlayGamesServicesLib\libs` folder
+- Download corresponding version of `godot-lib.aar` package from [here](https://godotengine.org/download/) and place it again in `GodotGooglePlayGamesServicesLib\libs` folder
 - Open this project in atleast Android Studio 4 and run `gradlew build` from terminal to build the debug and release aar libs
 - Build output (`GodotGooglePlayGamesServicesLib/build/outputs/aar`) can be copied to Godot projects `android\plugins`
 
@@ -14,12 +14,13 @@ This is still work in progress and might not work as expected. You'll have to co
 First go over how to setup Google play games as mentioned [here](https://developers.google.com/games/services/android/quickstart#step_2_set_up_the_game_in_the)
 
 - In Godot open up the Android export template settings by going to `Project -> Export`. 
-  - Select `Android` and enable costom build. 
-  - Instal custom android build template. 
+  - Select `Android` and enable custom build.
+  - Install custom android build template.
+  - Add ids.xml file with `app_id` inside `android\build\res\values\ids.xml`
   - Add the following 2 lines to your app manifest between `<application>` tags
 
 ```xml
-<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="<YOUR_APPLICATION_ID_GOES_HERE>" />
+<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="@string/app_id" />
 <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
 ```
 
@@ -28,7 +29,7 @@ First go over how to setup Google play games as mentioned [here](https://develop
 - The min SDK version will need a update so open up the `android\build\config.gradle` and update `minSdkVersion` to 21
 - Last thing is to enable this plugin under `Project -> Export -> Android -> Plugins` and check the checkbox besides `Godot Google Play Games Services`
 
-Also theres an example godot project that shows you how to use this
+Also there's an example godot project that shows you how to use this
 
 ```
 var gps = null
@@ -57,7 +58,7 @@ func _on_Login2_pressed():
 	gps.signInSilently() # this should be called on app resume
 
 func _on_Unlock_pressed():
-	gps.unlockAchievement("<Acheavement ID>") #also incrementAchievement("<Acheavement ID>") can be called to increment acheavement progress
+	gps.unlockAchievement("<Achievement ID>") #also incrementAchievement("<Achievement ID>") can be called to increment Achievement progress
 
 func _on_Scores_pressed():
 	gps.showLeaderboards() # Should show leaderboards

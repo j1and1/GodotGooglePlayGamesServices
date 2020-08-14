@@ -9,7 +9,7 @@ func _ready():
 		gps = Engine.get_singleton("GooglePlayGamesServices")
 		gps.connect("onConnected", self, "_on_Connected") # register callback for UnityAdsReady
 		gps.connect("onDisconnected", self, "_on_Disconnected") # Register callback when video add is finished
-		gps.initialise("<OAuth2ClientID>")
+		gps.initialise(false, false)
 	print("Executed")
 
 

@@ -6,13 +6,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.games.AchievementsClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.LeaderboardsClient;
@@ -92,8 +95,15 @@ public class GooglePlayGamesServices extends GodotPlugin {
 
     // END: Export name, methods and signals to godot
 
-    public void initialise(String clientID) {
-        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(clientID).build();
+    public void initialise(boolean requestEmail, boolean scopeSnapshot) {
+        GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+        if (requestEmail) {
+            builder.requestEmail();
+        }
+        if (scopeSnapshot) {
+            //TODO: implement drive API scope request
+        }
+        GoogleSignInOptions options = builder.build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), options);
     }
 
@@ -115,7 +125,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
                         onConnected(task.getResult());
                     } else {
                         Log.e(TAG, "signInSilently(): failure", task.getException());
-                        onDisconnected();
+                        startSignInIntent();
                     }
                 }
             });
@@ -231,7 +241,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
     {
         super.onMainActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+           Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
