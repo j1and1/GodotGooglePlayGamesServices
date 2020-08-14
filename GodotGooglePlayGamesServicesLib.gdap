@@ -5,4 +5,4 @@ binary_type="local"
 binary="GodotGooglePlayGamesServicesLib-release.aar"
 
 [dependencies]
-remote=["com.google.android.gms:play-services-auth:18.0.0", "com.google.android.gms:play-services-games:19.0.0"]
+remote=["com.google.android.gms:play-services-auth:18.0.0", "com.google.android.gms:play-services-games:18.0.0"]

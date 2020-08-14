@@ -9,23 +9,20 @@ func _ready():
 		gps = Engine.get_singleton("GooglePlayGamesServices")
 		gps.connect("onConnected", self, "_on_Connected") # register callback for UnityAdsReady
 		gps.connect("onDisconnected", self, "_on_Disconnected") # Register callback when video add is finished
-		gps.initialise("<OAuth2ClientID>")
-	print("Executed")
-
+		gps.initialise(true, false) # requestProfile data - True, requestEmail - False
 
 func _on_Connected():
-	# TODO: Show buttons
-	print("_on_Connected")
+	$SignedOut.hide()
+	$SignedIn.show()
+	
+	print(gps.getAccountInfo()) #returns account info in JSON or empty string if theres an error. If you didnt request email or profile data no info will be provided
 
 func _on_Disconnected():
-	# TODO: Hide buttons
-	print("_on_Disconnected was called")
+	$SignedOut.show()
+	$SignedIn.hide()
 
 func _on_Login_pressed():
-	gps.startSignInIntent() # Also can call signInSilently when app is resumed
-
-func _on_Login2_pressed():
-	gps.signInSilently() # this should be called on app resume
+	gps.signInSilently() # logs in silently if it cant then runs signin intent
 
 func _on_Unlock_pressed():
 	gps.unlockAchievement("<Acheavement ID>") #also incrementAchievement("<Acheavement ID>") can be called to increment acheavement progress

@@ -6,13 +6,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.games.AchievementsClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.LeaderboardsClient;
@@ -40,6 +43,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
     private LeaderboardsClient mLeaderboardsClient;
     //private EventsClient mEventsClient;
     //private PlayersClient mPlayersClient;
+    private GoogleSignInAccount mLoggedInAccount;
 
     // request codes we use when invoking an external activity
     private static final int RC_UNUSED = 5001;
@@ -75,6 +79,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
                 add("reportScore");
                 add("unlockAchievement");
                 add("incrementAchievement");
+                add("getAccountInfo");
             }
         };
     }
@@ -89,16 +94,35 @@ public class GooglePlayGamesServices extends GodotPlugin {
             }
         };
     }
-
     // END: Export name, methods and signals to godot
 
-    public void initialise(String clientID) {
-        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(clientID).build();
+    public void initialise(boolean requestProfile, boolean requestEmail) {
+        GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+
+        if(requestProfile) {
+            builder.requestProfile();
+        }
+        if (requestEmail) {
+            builder.requestEmail();
+        }
+        GoogleSignInOptions options = builder.build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), options);
     }
 
     public boolean isSignedIn() {
-        return GoogleSignIn.getLastSignedInAccount(getActivity()) != null;
+        return mLoggedInAccount != null;
+    }
+
+    public String getAccountInfo()
+    {
+        if (isSignedIn())
+        {
+            return Helpers.AccountToJSON(mLoggedInAccount);
+        }
+        else
+        {
+            return "";
+        }
     }
 
     public void signInSilently() {
@@ -115,7 +139,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
                         onConnected(task.getResult());
                     } else {
                         Log.e(TAG, "signInSilently(): failure", task.getException());
-                        onDisconnected();
+                        startSignInIntent();
                     }
                 }
             });
@@ -231,7 +255,7 @@ public class GooglePlayGamesServices extends GodotPlugin {
     {
         super.onMainActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+           Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -252,10 +276,13 @@ public class GooglePlayGamesServices extends GodotPlugin {
     {
         Log.d(TAG, "onConnected(): connected to Google APIs");
 
+        mLoggedInAccount = resultingAccount;
         mAchievementsClient = Games.getAchievementsClient(getActivity(), resultingAccount);
         mLeaderboardsClient = Games.getLeaderboardsClient(getActivity(), resultingAccount);
         //mEventsClient = Games.getEventsClient(getActivity(), resultingAccount);
         //mPlayersClient = Games.getPlayersClient(getActivity(), resultingAccount);
+
+        emitSignal(mOnConnectedSignal.getName());
     }
 
     private void onDisconnected()
@@ -266,5 +293,8 @@ public class GooglePlayGamesServices extends GodotPlugin {
         mLeaderboardsClient = null;
         //mPlayersClient = null;
         //mEventsClient = null;
+        mLoggedInAccount = null;
+
+        emitSignal(mOnDisonnectedSignal.getName());
     }
 }

@@ -25,7 +25,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     compileOnly fileTree(dir: "libs", include: ["*.aar"])
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
-    implementation 'com.google.android.gms:play-services-games:19.0.0'
+    implementation 'com.google.android.gms:play-services-games:18.0.0'
 
 }
 
